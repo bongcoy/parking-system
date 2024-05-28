@@ -1,5 +1,7 @@
 import bcrypt from "bcrypt";
 import User from "../models/users.js";
+import jwt from "jsonwebtoken";
+import {Op} from "sequelize";
 
 export default class UserController {
   static async store(req, res) {
@@ -49,6 +51,28 @@ export default class UserController {
     try {
       const user = await User.destroy({where: {id: req.params.id}});
       res.status(204).json(user);
+    } catch (error) {
+      res.status(400).json({error: error.message});
+    }
+  }
+
+  static async login(req, res) {
+    try {
+      const {username, password} = req.body;
+      const user = await User.findOne({
+        where: {[Op.or]: [{username}, {email: username}]},
+      });
+      if (!user) {
+        return res.status(400).json({error: "Invalid username or email"});
+      }
+      const validPassword = bcrypt.compareSync(password, user.password);
+      if (!validPassword) {
+        return res.status(400).json({error: "Invalid password"});
+      }
+      const token = jwt.sign({id: user.id}, process.env.JWT_SECRET, {
+        expiresIn: "1h",
+      });
+      res.status(200).json({token});
     } catch (error) {
       res.status(400).json({error: error.message});
     }
