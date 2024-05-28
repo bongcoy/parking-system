@@ -13,9 +13,9 @@ export default class UserController {
     }
   }
 
-  static async get(req, res) {
+  static async getAll(req, res) {
     try {
-      const users = await this.userService.get();
+      const users = await User.findAll();
       res.status(200).json(users);
     } catch (error) {
       res.status(400).json({error: error.message});
