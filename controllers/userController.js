@@ -33,7 +33,12 @@ export default class UserController {
 
   static async update(req, res) {
     try {
-      const user = await this.userService.update(req.params.id, req.body);
+      let {username, email, password} = req.body;
+      password = bcrypt.hashSync(password, 10);
+      const user = await User.update(
+        {username, email, password},
+        {where: {id: req.params.id}},
+      );
       res.status(200).json(user);
     } catch (error) {
       res.status(400).json({error: error.message});
