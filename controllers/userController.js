@@ -63,7 +63,7 @@ export default class UserController {
         where: {[Op.or]: [{username}, {email: username}]},
       });
       if (!user) {
-        return res.status(400).json({error: "Invalid username or email"});
+        return res.status(400).json({error: "User not found"});
       }
       const validPassword = bcrypt.compareSync(password, user.password);
       if (!validPassword) {
@@ -73,6 +73,14 @@ export default class UserController {
         expiresIn: "1h",
       });
       res.status(200).json({token});
+    } catch (error) {
+      res.status(400).json({error: error.message});
+    }
+  }
+  static async me(req, res) {
+    try {
+      const user = await User.findByPk(req.user.id);
+      res.status(200).json(user);
     } catch (error) {
       res.status(400).json({error: error.message});
     }
