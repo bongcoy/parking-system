@@ -77,10 +77,25 @@ export default class UserController {
       res.status(400).json({error: error.message});
     }
   }
+
   static async me(req, res) {
     try {
       const user = await User.findByPk(req.user.id);
       res.status(200).json(user);
+    } catch (error) {
+      res.status(400).json({error: error.message});
+    }
+  }
+
+  static async register(req, res) {
+    try {
+      let {username, email, password} = req.body;
+      password = bcrypt.hashSync(password, 10);
+      const user = await User.create({username, email, password});
+      const token = jwt.sign({id: user.id}, process.env.JWT_SECRET, {
+        expiresIn: "1h",
+      });
+      res.status(201).json(token);
     } catch (error) {
       res.status(400).json({error: error.message});
     }
