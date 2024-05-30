@@ -57,4 +57,14 @@ export default class ParkController {
       res.status(400).json({error: error.message});
     }
   }
+
+  static async cancelOrder(req, res) {
+    try {
+      const park = await Park.destroy({where: {id: req.params.id}});
+      console.log(park);
+      res.status(204).json(park);
+    } catch (error) {
+      res.status(400).json({error: error.message});
+    }
+  }
 }

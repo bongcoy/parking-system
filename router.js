@@ -20,5 +20,6 @@ router.post("/park", authenticate, ParkController.order);
 router.get("/park", authenticate, ParkController.getAllOrder);
 router.get("/park/:id", ParkController.getOrderById);
 router.put("/park/:id", authenticate, ParkController.update);
+router.delete("/park/:id", ParkController.cancelOrder);
 
 export default router;
