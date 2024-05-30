@@ -32,4 +32,13 @@ export default class ParkController {
       res.status(400).json({error: error.message});
     }
   }
+
+  static async getOrderById(req, res) {
+    try {
+      const park = await Park.findByPk(req.params.id);
+      res.status(200).json(park);
+    } catch (error) {
+      res.status(400).json({error: error.message});
+    }
+  }
 }

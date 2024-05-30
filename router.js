@@ -18,5 +18,6 @@ router.post("/user/register", UserController.register);
 // PARK
 router.post("/park", authenticate, ParkController.order);
 router.get("/park", authenticate, ParkController.getAllOrder);
+router.get("/park/:id", ParkController.getOrderById);
 
 export default router;
