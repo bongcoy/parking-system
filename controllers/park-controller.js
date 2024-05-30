@@ -1,4 +1,5 @@
 import Park from "../models/park.js";
+import User from "../models/users.js";
 
 export default class ParkController {
   static async order(req, res) {
@@ -15,6 +16,18 @@ export default class ParkController {
         user_id,
       });
       res.status(201).json(park);
+    } catch (error) {
+      res.status(400).json({error: error.message});
+    }
+  }
+
+  static async getAllOrder(req, res) {
+    try {
+      const park = await Park.findAll({
+        where: {user_id: req.user.id},
+        include: [User],
+      });
+      res.status(200).json(park);
     } catch (error) {
       res.status(400).json({error: error.message});
     }
