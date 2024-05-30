@@ -37,4 +37,6 @@ const Park = sequelize.define(
   {timestamps: false},
 );
 
+Park.belongsTo(User, {foreignKey: "user_id"});
+
 export default Park;
