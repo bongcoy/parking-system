@@ -1,6 +1,3 @@
-// id, user_id, duration, total, car_plate
-// id, username, email, password
-
 import sequelize from "../configs/db.js";
 import {DataTypes} from "sequelize";
 import User from "./users.js";
@@ -19,17 +16,16 @@ const Park = sequelize.define(
         model: User,
         key: "id",
       },
-      allowNull: false,
     },
     duration: {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
-    total: {
+    total_fee: {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
-    car_plate: {
+    plate_number: {
       type: DataTypes.STRING,
       allowNull: false,
     },

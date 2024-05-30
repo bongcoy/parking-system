@@ -1,6 +1,7 @@
 import express from "express";
-import UserController from "./controllers/userController.js";
+import UserController from "./controllers/user-controller.js";
 import authenticate from "./middlewares/authenticate.js";
+import ParkController from "./controllers/park-controller.js";
 
 const router = express.Router();
 
@@ -13,5 +14,8 @@ router.put("/user/:id", UserController.update);
 router.delete("/user/:id", UserController.delete);
 router.post("/user/login", UserController.login);
 router.post("/user/register", UserController.register);
+
+// PARK
+router.post("/park", authenticate, ParkController.order);
 
 export default router;
