@@ -5,6 +5,10 @@ import ParkController from "./controllers/park-controller.js";
 
 const router = express.Router();
 
+router.get("/", (req, res) => {
+  res.send("Hello World");
+});
+
 // USER
 router.post("/user", UserController.store);
 router.get("/user/me", authenticate, UserController.me);
